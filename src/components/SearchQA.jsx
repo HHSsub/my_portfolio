@@ -9,19 +9,17 @@ export default function SearchQA() {
 
   useEffect(() => {
     let cancelled = false
-
     ;(async () => {
       try {
         const [portfolioRes, seedRes] = await Promise.all([
           fetch(`${BASE}data/portfolio.json`),
           fetch(`${BASE}data/qna_seed.json`).catch(() => null)
         ])
-
-        const portfolio = portfolioRes && portfolioRes.ok ? await portfolioRes.json() : { projects: [] }
-        const seeds = seedRes && seedRes.ok ? await seedRes.json() : []
+        const portfolio = portfolioRes?.ok ? await portfolioRes.json() : { projects: [] }
+        const seeds = seedRes?.ok ? await seedRes.json() : []
 
         const pdocs = [
-          ...(portfolio?.projects || []).map((p, i) => ({
+          ...(portfolio.projects ?? []).map((p, i) => ({
             id: `p_${i}`,
             title: p.title,
             text: [p.description, Array.isArray(p.tech) ? p.tech.join(' ') : p.tech, p.period].filter(Boolean).join(' ')
@@ -33,14 +31,10 @@ export default function SearchQA() {
           setDocs(pdocs)
           setLoading(false)
         }
-      } catch (e) {
-        if (!cancelled) {
-          setDocs([])
-          setLoading(false)
-        }
+      } catch {
+        if (!cancelled) { setDocs([]); setLoading(false) }
       }
     })()
-
     return () => { cancelled = true }
   }, [BASE])
 
