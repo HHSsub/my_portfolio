@@ -6,6 +6,7 @@ permissions:
   contents: read
   pages: write
   id-token: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -13,11 +14,24 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with: { node-version: '20' }
-      - run: npm ci
-      - run: npm run build
-      - run: touch dist/.nojekyll
-      - uses: actions/upload-pages-artifact@v3
-        with: { path: 'dist' }
+
+      # ←← 여기서부터 중요한 포인트: 서브폴더에서 설치/빌드하기
+      - name: Install
+        working-directory: interactive-portfolio
+        run: npm install
+
+      - name: Build
+        working-directory: interactive-portfolio
+        run: npm run build
+
+      - name: No Jekyll
+        run: touch interactive-portfolio/dist/.nojekyll
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: interactive-portfolio/dist
+
   deploy:
     needs: build
     runs-on: ubuntu-latest
