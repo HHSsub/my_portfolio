@@ -1,7 +1,7 @@
 import { normalizeCategoryMap, text } from '../utils/safe'
 
 export default function Skills({ data }) {
-  // skills, certs 가 배열일 수도, 카테고리 객체일 수도, 객체 배열일 수도 있음
+  // skills, certs는 배열/객체/카테고리 객체 등 다양한 형태를 허용
   const skillGroups = normalizeCategoryMap(data?.skills)
   const certGroups  = normalizeCategoryMap(data?.certs)
 
@@ -19,10 +19,13 @@ export default function Skills({ data }) {
           ) : (
             skillGroups.map((g, gi) => (
               <div key={gi} className="mb-3">
-                {g.heading && <div className="text-sm font-semibold mb-1">{text(g.heading)}</div>}
+                {g.heading ? (
+                  <div className="text-sm font-semibold mb-1">{text(g.heading)}</div>
+                ) : null}
+
                 <ul className="list-disc list-inside text-sm opacity-90 space-y-1">
                   {g.items.map((item, i) => (
-                    <li key={i}>{text(item)}</li> {/* ← 객체여도 text()로 안전 변환 */}
+                    <li key={i}>{text(item)}</li>
                   ))}
                 </ul>
               </div>
@@ -39,10 +42,13 @@ export default function Skills({ data }) {
           ) : (
             certGroups.map((g, gi) => (
               <div key={gi} className="mb-3">
-                {g.heading && <div className="text-sm font-semibold mb-1">{text(g.heading)}</div>}
+                {g.heading ? (
+                  <div className="text-sm font-semibold mb-1">{text(g.heading)}</div>
+                ) : null}
+
                 <ul className="list-disc list-inside text-sm opacity-90 space-y-1">
                   {g.items.map((item, i) => (
-                    <li key={i}>{text(item)}</li> {/* ← 객체여도 text()로 안전 변환 */}
+                    <li key={i}>{text(item)}</li>
                   ))}
                 </ul>
               </div>
