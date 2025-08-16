@@ -1,6 +1,8 @@
+import { arr } from '../utils/safe'
+
 export default function Skills({ data }) {
-  const skills = Array.isArray(data?.skills) ? data.skills : []
-  const certs  = Array.isArray(data?.certs)  ? data.certs  : []
+  const skills = arr(data?.skills)
+  const certs  = arr(data?.certs)
 
   return (
     <div className="glass rounded-2xl p-6">
