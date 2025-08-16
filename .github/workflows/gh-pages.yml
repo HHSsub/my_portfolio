@@ -13,24 +13,23 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
-        with: { node-version: '20' }
+        with:
+          node-version: '20'
 
-      # ←← 여기서부터 중요한 포인트: 서브폴더에서 설치/빌드하기
+      # 루트에서 설치/빌드
       - name: Install
-        working-directory: interactive-portfolio
         run: npm install
 
       - name: Build
-        working-directory: interactive-portfolio
         run: npm run build
 
       - name: No Jekyll
-        run: touch interactive-portfolio/dist/.nojekyll
+        run: touch dist/.nojekyll
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: interactive-portfolio/dist
+          path: dist
 
   deploy:
     needs: build
