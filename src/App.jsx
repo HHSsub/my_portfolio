@@ -6,10 +6,12 @@ import Skills from './sections/Skills'
 import Projects from './sections/Projects'
 import Experience from './sections/Experience'
 import Contact from './sections/Contact'
+import { arr } from './utils/safe'
 
 export default function App() {
   const BASE = import.meta.env.BASE_URL
   const [data, setData] = useState({
+    profile: {},        // 혹시 profile 객체가 있더라도 안전
     skills: [],
     projects: [],
     experience: [],
@@ -22,22 +24,34 @@ export default function App() {
     let cancelled = false
     ;(async () => {
       try {
-        const res = await fetch(`${BASE}data/portfolio.json`)
+        const res = await fetch(`${BASE}data/portfolio.json`, { cache: 'no-store' })
         if (!res.ok) throw new Error(`fetch portfolio.json ${res.status}`)
         const json = await res.json()
+
+        // 콘솔에서 실제 들어온 구조 확인 (디버그용)
+        console.log('[portfolio.json]', json)
+
         if (!cancelled) {
           setData({
-            skills: json?.skills ?? [],
-            projects: json?.projects ?? [],
-            experience: json?.experience ?? [],
-            education: json?.education ?? [],
-            certs: json?.certs ?? []
+            profile: json?.profile ?? {},
+            skills: arr(json?.skills),
+            projects: arr(json?.projects),
+            experience: arr(json?.experience),
+            education: arr(json?.education),
+            certs: arr(json?.certs)
           })
         }
       } catch (e) {
         console.error('portfolio.json load error:', e)
         if (!cancelled) {
-          setData({ skills: [], projects: [], experience: [], education: [], certs: [] })
+          setData({
+            profile: {},
+            skills: [],
+            projects: [],
+            experience: [],
+            education: [],
+            certs: []
+          })
         }
       } finally {
         if (!cancelled) setLoading(false)
@@ -58,7 +72,7 @@ export default function App() {
           <section id="skills" className="mt-10"><Skills data={data} /></section>
           <section id="projects" className="mt-10"><Projects data={data} /></section>
           <section id="experience" className="mt-10"><Experience data={data} /></section>
-          <section id="contact" className="mt-10"><Contact /></section>
+          <section id="contact" className="mt-10"><Contact data={data} /></section>
         </>
       )}
     </div>
