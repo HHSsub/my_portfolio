@@ -7,42 +7,61 @@ import Projects from './sections/Projects'
 import Experience from './sections/Experience'
 import Contact from './sections/Contact'
 
-// 메뉴 흐름/타이포/카드 구조는 제공 디자인을 충실히 반영
 export default function App() {
-  const [tab, setTab] = useState('home')
-  const [data, setData] = useState(null)
+  const BASE = import.meta.env.BASE_URL
+  const [data, setData] = useState({
+    skills: [],
+    projects: [],
+    experience: [],
+    education: [],
+    certs: []
+  })
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetch('/interactive-portfolio/data/portfolio.json').then(r=>r.json()).then(setData)
-  }, [])
+    let cancelled = false
+    ;(async () => {
+      try {
+        const res = await fetch(`${BASE}data/portfolio.json`)
+        if (!res.ok) throw new Error(`fetch portfolio.json ${res.status}`)
+        const json = await res.json()
+        if (!cancelled) {
+          // 섹션에서 안전하게 쓰도록 기본값 보강
+          setData({
+            skills: json.skills ?? [],
+            projects: json.projects ?? [],
+            experience: json.experience ?? [],
+            education: json.education ?? [],
+            certs: json.certs ?? []
+          })
+        }
+      } catch (e) {
+        console.error('portfolio.json load error:', e)
+        if (!cancelled) setData({ skills: [], projects: [], experience: [], education: [], certs: [] })
+      } finally {
+        if (!cancelled) setLoading(false)
+      }
+    })()
+    return () => { cancelled = true }
+  }, [BASE])
 
   return (
-    <div className={tab==='home' ? 'gradient-bg min-h-dvh' : 'bg-slate-100 min-h-dvh'}>
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" />
-      <div className="max-w-6xl mx-auto px-4 py-10">
-        {tab!=='home' && (
-          <button onClick={()=>setTab('home')}
-                  className="mb-6 text-blue-300 hover:text-blue-200">
-            <i className="fas fa-home mr-2"></i>홈으로 돌아가기
-          </button>
-        )}
+    <div className="max-w-5xl mx-auto px-5 py-10">
+      <Header />
+      <MainButtons />
+      <SearchQA />
 
-        {tab==='home' && (
-          <>
-            <Header/>
-            <MainButtons current={tab} onPick={setTab}/>
-            <SearchQA/>
-            <div className="mt-6 text-sm opacity-80 text-center">
-              위 버튼을 눌러 영역별 상세를 확인하세요. (반응형 UI)
-            </div>
-          </>
-        )}
-
-        {data && tab==='skills' && <Skills data={data}/>}
-        {data && tab==='projects' && <Projects data={data}/>}
-        {data && tab==='experience' && <Experience data={data}/>}
-        {data && tab==='contact' && <Contact data={data}/>}
-      </div>
+      {loading ? (
+        <div className="mt-8 opacity-75">데이터 불러오는 중...</div>
+      ) : (
+        <>
+          {/* 섹션 앵커 */}
+          <section id="skills" className="mt-10"><Skills data={data} /></section>
+          <section id="projects" className="mt-10"><Projects data={data} /></section>
+          <section id="experience" className="mt-10"><Experience data={data} /></section>
+          <section id="contact" className="mt-10"><Contact /></section>
+        </>
+      )}
     </div>
   )
 }
