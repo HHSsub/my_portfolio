@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import Fuse from 'fuse.js'
+import { arr } from '../utils/safe'
 
 export default function SearchQA() {
   const [query, setQuery] = useState('')
@@ -12,19 +13,19 @@ export default function SearchQA() {
     ;(async () => {
       try {
         const [pfRes, seedRes] = await Promise.all([
-          fetch(`${BASE}data/portfolio.json`),
+          fetch(`${BASE}data/portfolio.json`).catch(() => null),
           fetch(`${BASE}data/qna_seed.json`).catch(() => null)
         ])
         const pf = pfRes?.ok ? await pfRes.json() : { projects: [] }
         const seeds = seedRes?.ok ? await seedRes.json() : []
 
         const pdocs = [
-          ...(pf.projects ?? []).map((p, i) => ({
+          ...arr(pf.projects).map((p, i) => ({
             id: `p_${i}`,
             title: p.title,
             text: [p.description, Array.isArray(p.tech) ? p.tech.join(' ') : p.tech, p.period].filter(Boolean).join(' ')
           })),
-          ...seeds.map((s, i) => ({ id: `s_${i}`, title: s.q, text: s.a }))
+          ...arr(seeds).map((s, i) => ({ id: `s_${i}`, title: s.q, text: s.a }))
         ]
 
         if (!cancelled) { setDocs(pdocs); setLoading(false) }
