@@ -4,14 +4,16 @@
   "description": "**황회선 (Hwang Hoe Sun) · 데이터 분석가 & 개발자**",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/HHSsub/my_portfolio.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Hwang Hoe Sun",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/HHSsub/my_portfolio/issues"
