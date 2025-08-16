@@ -1,0 +1,82 @@
+{
+  "profile": {
+    "name": "황회선 (Hwang Hoe Sun)",
+    "title": "데이터분석가 & 개발자",
+    "email": "contact@hwangs.dev",
+    "github": "https://github.com/HWANG-HOE-SUN",
+    "linkedin": "#"
+  },
+  "skills": {
+    "technical": ["Python","Pandas","SQL","React","RAG","LLM 프롬프팅","EDA","API 통합","Automation","Tailwind"],
+    "soft": ["문제해결","고객 커뮤니케이션","프로젝트 관리","문서화","리더십"]
+  },
+  "projects": [
+    {
+      "title": "CLOD 이론 정립 & 공BTI 개발",
+      "period": "2025.03 - 2025.08",
+      "description": "학습 성향 진단 모델 정립 및 심화(공BTI) 설계. 설문-알고리즘-결과해석 파이프라인 고도화.",
+      "tech": ["React","Python","데이터분석","프롬프트 설계"],
+      "status": "진행중",
+      "category": "최신"
+    },
+    {
+      "title": "노우그램 텀블벅 펀딩",
+      "period": "2025.04 - 2025.08",
+      "description": "학습 진단+맞춤 설계 툴킷 패키지화 및 펀딩 콘텐츠/운영.",
+      "tech": ["제품기획","Crowdfunding","브랜딩"],
+      "status": "진행중",
+      "category": "최신"
+    },
+    {
+      "title": "Upbit 자동매매봇 (텔레그램 연동)",
+      "period": "2025.06 - 2025.08",
+      "description": "지표 기반 매수/매도 로직, 포지션 범위 매도 원칙, 상태관리/알림.",
+      "tech": ["Python","API","알고리즘 트레이딩","백테스트"],
+      "status": "완료",
+      "category": "최신"
+    },
+    {
+      "title": "삼미앵글랙 견적/발주 자동화 사이트",
+      "period": "2025.07 - 2025.08",
+      "description": "옵션 의존성/단가 계산/문서 출력까지 일원화한 React 내장 툴.",
+      "tech": ["React","Tailwind","업무자동화"],
+      "status": "완료",
+      "category": "최신"
+    },
+    {
+      "title": "농산물 가격 예측",
+      "period": "2024.09 - 2024.12",
+      "description": "머신러닝 기반 가격/생산량 예측 파이프라인(MAPE 5%).",
+      "tech": ["Python","ML","시계열"],
+      "status": "완료",
+      "category": "바르카"
+    }
+  ],
+  "experience": [
+    {
+      "company": "노우그램 (개인사업자)",
+      "role": "대표/개발자",
+      "period": "2025.04 - 현재",
+      "description": "CLOD/공BTI, 텀블벅, 자동화 솔루션 개발"
+    },
+    {
+      "company": "㈜바르카",
+      "role": "데이터 분석가(연구원)",
+      "period": "2024.03 - 2025.03",
+      "description": "농산물·기상 데이터 가공/자동화, ML 예측모델"
+    }
+  ],
+  "education": {
+    "university": "홍익대학교",
+    "major": "산업공학과",
+    "period": "2016.03 - 2022.08",
+    "gpa": "4.11/4.50 (전공 4.13)"
+  },
+  "certifications": [
+    "빅데이터분석기사 (2021.12)",
+    "SQLD (2021.10)",
+    "ADSP (2021.04)",
+    "사회조사분석사 2급 (2021.09)",
+    "리더십지도사 1급 (2023.10)"
+  ]
+}
