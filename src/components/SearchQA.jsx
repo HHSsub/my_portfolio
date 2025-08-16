@@ -11,15 +11,15 @@ export default function SearchQA() {
     let cancelled = false
     ;(async () => {
       try {
-        const [portfolioRes, seedRes] = await Promise.all([
+        const [pfRes, seedRes] = await Promise.all([
           fetch(`${BASE}data/portfolio.json`),
           fetch(`${BASE}data/qna_seed.json`).catch(() => null)
         ])
-        const portfolio = portfolioRes?.ok ? await portfolioRes.json() : { projects: [] }
+        const pf = pfRes?.ok ? await pfRes.json() : { projects: [] }
         const seeds = seedRes?.ok ? await seedRes.json() : []
 
         const pdocs = [
-          ...(portfolio.projects ?? []).map((p, i) => ({
+          ...(pf.projects ?? []).map((p, i) => ({
             id: `p_${i}`,
             title: p.title,
             text: [p.description, Array.isArray(p.tech) ? p.tech.join(' ') : p.tech, p.period].filter(Boolean).join(' ')
@@ -27,10 +27,7 @@ export default function SearchQA() {
           ...seeds.map((s, i) => ({ id: `s_${i}`, title: s.q, text: s.a }))
         ]
 
-        if (!cancelled) {
-          setDocs(pdocs)
-          setLoading(false)
-        }
+        if (!cancelled) { setDocs(pdocs); setLoading(false) }
       } catch {
         if (!cancelled) { setDocs([]); setLoading(false) }
       }
@@ -49,9 +46,7 @@ export default function SearchQA() {
 
   return (
     <div className="glass rounded-2xl p-5 mt-7">
-      <div className="text-sm opacity-80 mb-1">
-        <i className="fas fa-robot mr-2"></i>AI에게 질문하기 (데모)
-      </div>
+      <div className="text-sm opacity-80 mb-1"><i className="fas fa-robot mr-2"></i>AI에게 질문하기 (데모)</div>
       <div className="flex gap-2">
         <input
           className="flex-1 rounded-lg px-4 py-3 bg-slate-900 outline-none"
@@ -61,9 +56,8 @@ export default function SearchQA() {
         />
         <button className="px-4 rounded-lg bg-blue-600 hover:bg-blue-700">질의</button>
       </div>
-      {loading
-        ? <div className="mt-3 opacity-70">로딩중...</div>
-        : <pre className="whitespace-pre-wrap text-sm mt-3 opacity-90">{answer}</pre>}
+      {loading ? <div className="mt-3 opacity-70">로딩중...</div>
+               : <pre className="whitespace-pre-wrap text-sm mt-3 opacity-90">{answer}</pre>}
     </div>
   )
 }
