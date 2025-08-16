@@ -2,11 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-:root { --card: rgba(255,255,255,0.08); --card2: rgba(255,255,255,0.06); }
-.gradient-bg {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+/* ---- App 테마(다크) ---- */
+:root { color-scheme: dark; }
+html, body, #root { height: 100%; }
+
+body {
+  @apply bg-gradient-to-br from-indigo-700 via-purple-700 to-violet-700 text-slate-100;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
-.glass { background: var(--card); backdrop-filter: blur(12px); }
-.card { background: var(--card2); }
-.typing { border-right: 2px solid #99aaff; animation: caret 1s infinite; }
-@keyframes caret { 0%, 50% {border-color: transparent;} 51%, 100% {border-color: #99aaff;} }
+
+/* 카드 유리 효과 */
+.glass { @apply bg-white/10 backdrop-blur-md border border-white/15; }
+
+/* 타이핑 한 줄 높이 확보 */
+.typing { min-height: 1.5rem; }
