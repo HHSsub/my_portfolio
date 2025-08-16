@@ -1,6 +1,8 @@
+import { arr } from '../utils/safe'
+
 export default function Experience({ data }) {
-  const exps = Array.isArray(data?.experience) ? data.experience : []
-  const edus = Array.isArray(data?.education) ? data.education : []
+  const exps = arr(data?.experience)
+  const edus = arr(data?.education)
 
   return (
     <div className="glass rounded-2xl p-6">
@@ -12,7 +14,7 @@ export default function Experience({ data }) {
           {exps.length ? exps.map((e, i) => (
             <div key={i} className="mb-3">
               <div className="text-sm font-semibold">{e.company || e.org || '회사'}</div>
-              <div className="text-xs opacity-80">{e.role || e.title || ''} {e.period ? `· ${e.period}` : ''}</div>
+              <div className="text-xs opacity-80">{[e.role, e.title].filter(Boolean).join(' / ')} {e.period ? `· ${e.period}` : ''}</div>
               {e.desc && <div className="text-sm mt-1 opacity-90">{e.desc}</div>}
             </div>
           )) : <div className="opacity-70 text-sm">등록된 경력이 없습니다.</div>}
