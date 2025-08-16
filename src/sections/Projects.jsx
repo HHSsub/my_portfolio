@@ -1,7 +1,8 @@
 import ProjectCard from '../components/ProjectCard'
+import { arr } from '../utils/safe'
 
 export default function Projects({ data }) {
-  const items = Array.isArray(data?.projects) ? data.projects : []
+  const items = arr(data?.projects)
   return (
     <div className="glass rounded-2xl p-6 mt-6">
       <div className="text-xl font-bold mb-4">프로젝트 & 성과</div>
