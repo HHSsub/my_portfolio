@@ -26,18 +26,19 @@ export default function App() {
         if (!res.ok) throw new Error(`fetch portfolio.json ${res.status}`)
         const json = await res.json()
         if (!cancelled) {
-          // 섹션에서 안전하게 쓰도록 기본값 보강
           setData({
-            skills: json.skills ?? [],
-            projects: json.projects ?? [],
-            experience: json.experience ?? [],
-            education: json.education ?? [],
-            certs: json.certs ?? []
+            skills: json?.skills ?? [],
+            projects: json?.projects ?? [],
+            experience: json?.experience ?? [],
+            education: json?.education ?? [],
+            certs: json?.certs ?? []
           })
         }
       } catch (e) {
         console.error('portfolio.json load error:', e)
-        if (!cancelled) setData({ skills: [], projects: [], experience: [], education: [], certs: [] })
+        if (!cancelled) {
+          setData({ skills: [], projects: [], experience: [], education: [], certs: [] })
+        }
       } finally {
         if (!cancelled) setLoading(false)
       }
@@ -50,12 +51,10 @@ export default function App() {
       <Header />
       <MainButtons />
       <SearchQA />
-
       {loading ? (
         <div className="mt-8 opacity-75">데이터 불러오는 중...</div>
       ) : (
         <>
-          {/* 섹션 앵커 */}
           <section id="skills" className="mt-10"><Skills data={data} /></section>
           <section id="projects" className="mt-10"><Projects data={data} /></section>
           <section id="experience" className="mt-10"><Experience data={data} /></section>
