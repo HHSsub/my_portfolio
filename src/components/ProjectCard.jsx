@@ -1,28 +1,19 @@
 export default function ProjectCard({ p }) {
+  if (!p) return null
+  const techText = Array.isArray(p.tech) ? p.tech.join(' · ') : (p.tech || '')
   return (
-    <div className="p-5 rounded-xl bg-white/90 text-slate-800 shadow-md">
-      <div className="flex justify-between items-start">
-        <div className="text-lg font-semibold">{p.title}</div>
-        <span className={`text-xs px-2 py-1 rounded-full
-          ${p.category==='최신'?'bg-green-100 text-green-700':
-            p.category==='바르카'?'bg-blue-100 text-blue-700':'bg-purple-100 text-purple-700'}`}>
-          {p.category||'프로젝트'}
-        </span>
+    <div className="rounded-xl p-4 bg-slate-900/50 border border-white/10">
+      <div className="flex items-start justify-between gap-3">
+        <div className="text-base font-semibold">{p.title || '제목 없음'}</div>
+        {p.period && <div className="text-xs opacity-70">{p.period}</div>}
       </div>
-      <div className="opacity-80 mt-2">{p.description}</div>
-      <div className="text-xs opacity-60 mt-1">{p.period}</div>
-      {p.tech?.length>0 && (
-        <div className="flex flex-wrap gap-2 mt-2">
-          {p.tech.map((t,i)=>(<span key={i} className="text-xs px-2 py-1 bg-slate-100 rounded">{t}</span>))}
-        </div>
+      {p.description && <p className="text-sm opacity-90 mt-2">{p.description}</p>}
+      {techText && <p className="text-xs opacity-70 mt-2">기술: {techText}</p>}
+      {p.link && (
+        <a className="text-sm mt-3 inline-block text-blue-400 hover:underline" href={p.link} target="_blank" rel="noreferrer">
+          자세히 보기
+        </a>
       )}
-      {p.status && (
-        <div className={`mt-3 inline-block text-xs px-2 py-1 rounded
-          ${p.status==='진행중'?'bg-yellow-100 text-yellow-800':'bg-emerald-100 text-emerald-700'}`}>
-          {p.status}
-        </div>
-      )}
-      {p.link && <a className="block mt-2 text-sm underline" href={p.link} target="_blank">링크</a>}
     </div>
   )
 }
