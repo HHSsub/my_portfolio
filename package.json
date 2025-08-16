@@ -1,6 +1,7 @@
 {
   "name": "interactive-portfolio",
   "version": "1.0.0",
+  "type": "module",                // ★ 추가
   "description": "**황회선 (Hwang Hoe Sun) · 데이터 분석가 & 개발자**",
   "main": "index.js",
   "scripts": {
